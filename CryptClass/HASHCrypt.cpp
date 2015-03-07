@@ -4,8 +4,10 @@
 
 //Constructeur
 HASHCrypt::HASHCrypt(std::string chain){
-    this->chain=chain;  //Initialisation de l'attribut chain
+    this->MD5_32=this->initMD5_32(chain);    //Initialisation MD5 sur 32bits
+    this->MD5_128=this->initMD5_128(chain);  //Initialisation MD5 sur 128bits
 }
+
 
 //Destructeur
 HASHCrypt::~HASHCrypt(){
@@ -13,13 +15,13 @@ HASHCrypt::~HASHCrypt(){
 
 
 
-//Retourne la somme de controle MD5 sur 32 bits de l'attribut chain
-std::string HASHCrypt::getMD5_32(){
+//Retourne la somme de controle MD5 sur 32 bits
+std::string HASHCrypt::initMD5_32(std::string chain){
 
-    //Calcule de la somme de controle MD5 dans un type byte à partir de l'attribut chain
+    //Calcule de la somme de controle MD5 dans un type byte à partir du paramètre chain
     CryptoPP::Weak1::MD5 hash;
     byte digest[ CryptoPP::Weak1::MD5::DIGESTSIZE ];
-    hash.CalculateDigest( digest, (byte*) this->chain.c_str(), this->chain.length() );
+    hash.CalculateDigest( digest, (byte*) chain.c_str(), chain.length() );
 
     //Convertion du hash en std::string
     CryptoPP::HexEncoder encoder;
@@ -32,13 +34,13 @@ std::string HASHCrypt::getMD5_32(){
     return output;
 }
 
-//Retourne la somme de controle MD5 sur 128 bits de l'attribut chain
-std::string HASHCrypt::getMD5_128(){
+//Retourne la somme de controle MD5 sur 128 bits
+std::string HASHCrypt::initMD5_128(std::string chain){
 
-    //Calcule de la somme de controle MD5 dans un type byte à partir de l'attribut chain
+    //Calcule de la somme de controle MD5 dans un type byte à partir du paramètre chain
     CryptoPP::Weak1::MD5 hash;
     byte digest[ CryptoPP::Weak1::MD5::DIGESTSIZE * 4 ];
-    hash.CalculateDigest( digest, (byte*) this->chain.c_str(), this->chain.length() );
+    hash.CalculateDigest( digest, (byte*) chain.c_str(), chain.length() );
 
     //Convertion du hash en std::string
     CryptoPP::HexEncoder encoder;
@@ -49,4 +51,15 @@ std::string HASHCrypt::getMD5_128(){
 
     //Retourne la sortie de la convertion
     return output;
+}
+
+
+//Getter MD5_32
+std::string HASHCrypt::getMD5_32(){
+    return this->MD5_32;
+}
+
+//Getter MD5_128
+std::string HASHCrypt::getMD5_128(){
+    return this->MD5_128;
 }
