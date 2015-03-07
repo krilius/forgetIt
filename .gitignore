@@ -1,0 +1,6 @@
+#For codeblocks project:
+/*.depend
+/*.layout
+/*.cbp
+/bin
+/obj
