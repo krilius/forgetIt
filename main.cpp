@@ -15,9 +15,21 @@ void aff(std::string chaine);
 //----- Program Start -----
 int main(){
 
-    HASHCrypt hash= HASHCrypt("Chaine de test");
 
-    aff(hash.getMD5_128());
+
+
+
+
+    HASHCrypt hash= HASHCrypt();
+
+    byte code[16];
+
+    hash.getMD5_128("Phrase de test !", code, sizeof(code));
+
+    for(int i=0; i<16;i++){
+        std::cout << code[i];
+    }
+
 
     return 0;
 

@@ -1,20 +1,22 @@
 //----- Includes std -----
-
+#include <iostream>
 #include <string>
-
+#include <sstream>
 
 //----- Includes crypto++ -----
 
-//Pour le calcule de la somme de controle MD5
+//Pour le calcule de la MD5
 #include <crypto++/md5.h>
 //Pour la convertion en hexadécimal et vice-versa
 #include <crypto++/hex.h>
+//Pour l'utilisation de l'algorithme SHA
+#include <crypto++/sha.h>
 
 
 /*----- Description -----
-Classe executant divers fonctions de hachage sur
-un paramètre donné à l'initialisation, ainsi celui-ci
-n'est présent en mémoire qu'à l'initialisation.
+Classe exécutant divers fonctions de hachage sur
+un paramètre donné à la méthode choisie.
+Gestion des exceptions.
 Utilise la bibliothèque crypto++
 */
 
@@ -22,26 +24,25 @@ class HASHCrypt{
 
     public:
         //Constructeur
-        HASHCrypt(std::string chain);
+        HASHCrypt();
 
         //Destructeur
         ~HASHCrypt();
 
-        std::string getMD5_32();    //Retourne MD5_32
-        std::string getMD5_128();   //Retourne MD5_128
+        //Contruit un MD5 de 128 bits sur le tableau digest de taille size à l'aide de la chaine chaine.
+        void getMD5_128(std::string chain, byte* digest, int size);
 
-
+        //Contruit un SHA de 256 bits sur le tableau digest de taille size à l'aide de la chaine chaine.
+        void getSHA_256(std::string chain, byte* digest, int size);   //Retourne SHA_256
 
     private:
-        //Calcule de MD5 sur 32bits
-        std::string initMD5_32(std::string chain);
 
-        //Calcule de MD5 sur 128 bits
-        std::string initMD5_128(std::string chain);
+        //Arrête le programme en cas de taille de Digest invalide et affiche une erreur.
+        void checkDigestSize(int sizeRequired, int size);
 
+        //Assemble et retourne les messages d'erreurs de type : InvalidDigestSizeError
+        std::string getInvalidDigestSizeError(int sizeRequired, int size);
 
-        std::string MD5_32;   //Attribut MD5 sur 32bits
-        std::string MD5_128;  //Attribut MD5 sur 128 bits
 
 
 };

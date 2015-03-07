@@ -1,11 +1,8 @@
 #include "HASHCrypt.hpp"
 
 
-
 //Constructeur
-HASHCrypt::HASHCrypt(std::string chain){
-    this->MD5_32=this->initMD5_32(chain);    //Initialisation MD5 sur 32bits
-    this->MD5_128=this->initMD5_128(chain);  //Initialisation MD5 sur 128bits
+HASHCrypt::HASHCrypt(){
 }
 
 
@@ -14,52 +11,67 @@ HASHCrypt::~HASHCrypt(){
 }
 
 
+/*
+    chain : objet de type string à hacher à l'aide de l'algorithme MD5
+    digest: tableau de type byte* contenant les données hasher
+    size: int faisant référence à la taille du tableau
 
-//Retourne la somme de controle MD5 sur 32 bits
-std::string HASHCrypt::initMD5_32(std::string chain){
+    Attention si size!=sizeof(digest) risque d'erreur de type Segmentation fault
 
-    //Calcule de la somme de controle MD5 dans un type byte à partir du paramètre chain
+*/
+void HASHCrypt::getMD5_128(std::string chain, byte* digest, int size){
+
+    //Contrôle de la taille du digest
+    this->checkDigestSize(CryptoPP::Weak1::MD5::DIGESTSIZE,size);
+
+    //Calcule de la somme de controle MD5 dans un type byte* à partir du paramètre chain
     CryptoPP::Weak1::MD5 hash;
-    byte digest[ CryptoPP::Weak1::MD5::DIGESTSIZE ];
     hash.CalculateDigest( digest, (byte*) chain.c_str(), chain.length() );
 
-    //Convertion du hash en std::string
-    CryptoPP::HexEncoder encoder;
-    std::string output;
-    encoder.Attach( new CryptoPP::StringSink( output ) );
-    encoder.Put( digest, sizeof(digest) );
-    encoder.MessageEnd();
-
-    //Retourne la sortie de la convertion
-    return output;
 }
 
-//Retourne la somme de controle MD5 sur 128 bits
-std::string HASHCrypt::initMD5_128(std::string chain){
 
-    //Calcule de la somme de controle MD5 dans un type byte à partir du paramètre chain
-    CryptoPP::Weak1::MD5 hash;
-    byte digest[ CryptoPP::Weak1::MD5::DIGESTSIZE * 4 ];
+/*
+    chain : objet de type string à hacher à l'aide de l'algorithme SHA-256
+    digest: tableau de type byte* contenant les données hasher
+    size : int faisant référence à la taille du tableau
+
+    Attention si size!=sizeof(digest) risque d'erreur de type Segmentation fault
+
+*/
+void HASHCrypt::getSHA_256(std::string chain, byte* digest, int size){
+
+    //Contrôle de la taille du digest
+    this->checkDigestSize(CryptoPP::SHA256::DIGESTSIZE,size);
+
+    //Calcule du SHA-256 dans un type byte* à partir du paramètre chain
+    CryptoPP::SHA256 hash;
     hash.CalculateDigest( digest, (byte*) chain.c_str(), chain.length() );
-
-    //Convertion du hash en std::string
-    CryptoPP::HexEncoder encoder;
-    std::string output;
-    encoder.Attach( new CryptoPP::StringSink( output ) );
-    encoder.Put( digest, sizeof(digest) );
-    encoder.MessageEnd();
-
-    //Retourne la sortie de la convertion
-    return output;
 }
 
 
-//Getter MD5_32
-std::string HASHCrypt::getMD5_32(){
-    return this->MD5_32;
+/*
+    size : contient la taille des données passer en paramètre à la méthode de hashage choisi
+*/
+std::string HASHCrypt::getInvalidDigestSizeError(int sizeRequired, int size){
+    std::ostringstream erreurStream;
+    erreurStream << "Taille de digest invalide ! ("<< sizeRequired <<" octets requis et "<< size <<" donner)";
+    return erreurStream.str();
 }
 
-//Getter MD5_128
-std::string HASHCrypt::getMD5_128(){
-    return this->MD5_128;
+/*
+    sizeRequired : Taille du disgest attendu
+    size : Taille du digest donné
+*/
+void HASHCrypt::checkDigestSize(int sizeRequired, int size){
+    try{
+        if(size !=sizeRequired){
+            throw this->getInvalidDigestSizeError(sizeRequired, size);
+        }
+
+    }
+    catch(std::string erreur){
+        std::cerr << erreur <<std::endl;
+        std::exit(EXIT_FAILURE);
+    }
 }
