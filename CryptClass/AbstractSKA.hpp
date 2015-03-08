@@ -22,28 +22,32 @@
 class AbstractSKA {
 
     public:
-        AbstractSKA();
-        ~AbstractSKA();
+        AbstractSKA(){
+        }
+        ~AbstractSKA(){
+        }
 
        /**
         * @brief Encrypt data.
         *
+        * @param key : key used to encrypt data
         * @param data : contain data to encrypt.
         *
         * This method must be overwritten.
         * **Warning** data will be modified.
         *
         */
-        virtual void encrypt(char* data) = 0;
+        virtual void encrypt(std::string key, char* data) = 0;
 
        /**
         * @brief Decrypt data.
         *
+        * @param key : key used to decrypt data
         * @param data : contain data to decrypt.
         *
         * This method must be overwritten.
         * **Warning** data will be modified.
         *
         */
-        virtual void decrypt(char* data) = 0;
+        virtual void decrypt(std::string key, char* data) = 0;
 };
