@@ -4,3 +4,6 @@
 /*.cbp
 /bin
 /obj
+/Doxyfile
+/Doxygen
+*.untracked

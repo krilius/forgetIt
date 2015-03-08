@@ -1,46 +1,97 @@
-//----- Includes std -----
+/**
+ * @file HASHCrypt.hpp
+ * @brief HASHCrypt class header
+ * @author manzerbredes
+ * @date 8 Mars 2015
+ *
+ * Contain all prototypes of HASHCrypt class.
+ *
+ */
+
+
+//----- std -----
 #include <iostream>
 #include <string>
 #include <sstream>
 
-//----- Includes crypto++ -----
-
-//Pour le calcule de la MD5
-#include <crypto++/md5.h>
-//Pour la convertion en hexadécimal et vice-versa
-#include <crypto++/hex.h>
-//Pour l'utilisation de l'algorithme SHA
-#include <crypto++/sha.h>
+//----- crypto++ -----
+#include <crypto++/md5.h>   //For MD5
+#include <crypto++/hex.h>   //For Hex convertion
+#include <crypto++/sha.h>   //For SHA
 
 
-/*----- Description -----
-Classe exécutant divers fonctions de hachage sur
-un paramètre donné à la méthode choisie.
-Gestion des exceptions.
-Utilise la bibliothèque crypto++
-*/
 
+
+/**
+ * @class HASHCrypt HASHCrypt.hpp "/CryptClass/HASHCrypt.hpp"
+ * @brief Hashing class
+ * @author manzerbredes
+ *
+ * Class who handle hashing functions to a byte* parameter.
+ * HASHCrypt try to detect errors and throw exceptions.
+ * HASHCrypt use crypto++ library.
+ */
 class HASHCrypt{
 
     public:
-        //Constructeur
+        /**
+         * @brief Contructor
+         */
         HASHCrypt();
 
-        //Destructeur
+        /**
+         * @brief Destructor
+         */
         ~HASHCrypt();
 
-        //Contruit un MD5 de 128 bits sur le tableau digest de taille size à l'aide de la chaine chaine.
+        /**
+        * @brief Create an MD5 over 128 bits on a digest array of bytes.
+        *
+        * @param chain : Chain to hash
+        * @param digest : An array of bytes (8 bits)
+        * @param size : Length of the array digest
+        *
+        * **Warning** digest will be modified.
+        * Digest must be an array of byte with 16 entries
+        */
         void getMD5_128(std::string chain, byte* digest, int size);
 
-        //Contruit un SHA de 256 bits sur le tableau digest de taille size à l'aide de la chaine chaine.
+        /**
+        * @brief Create an SHA over 256 bits on a digest array of bytes.
+        *
+        * @param chain : Chain to hash
+        * @param digest : An array of bytes (8 bits)
+        * @param size : Length of the array digest
+        *
+        * **Warning** digest will be modified.
+        * Digest must be an array of byte with 32 entries
+        */
         void getSHA_256(std::string chain, byte* digest, int size);   //Retourne SHA_256
 
     private:
 
-        //Arrête le programme en cas de taille de Digest invalide et affiche une erreur.
+        /**
+        * @brief Check the digest size
+        *
+        * @param sizeRequired : Digest size expected
+        * @param size : Given digest size
+        *
+        * Throw an exception, and stop the programm if
+        * sizeRequired != size
+        * Use getInvalidDigestSizeError method.
+        */
         void checkDigestSize(int sizeRequired, int size);
 
-        //Assemble et retourne les messages d'erreurs de type : InvalidDigestSizeError
+        /**
+        * @brief Make and error message.
+        *
+        * @param sizeRequired : Digest size expected
+        * @param size : Given digest size
+        *
+        * @return a string correspond to the error message
+        *
+        * Construct an error message with sizeRequired and size.
+        */
         std::string getInvalidDigestSizeError(int sizeRequired, int size);
 
 
