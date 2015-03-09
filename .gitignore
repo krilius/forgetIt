@@ -2,8 +2,10 @@
 /*.depend
 /*.layout
 /*.cbp
+/*.cbTemp
 /bin
 /obj
 /Doxyfile
 /Doxygen
 *.untracked
+
