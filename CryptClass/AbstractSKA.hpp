@@ -38,7 +38,7 @@ class AbstractSKA {
         * **Warning** data will be modified.
         *
         */
-        virtual void encrypt(std::string key, char* data) = 0;
+        virtual std::string encrypt(std::string key, std::string data) = 0;
 
        /**
         * @brief Decrypt data.
@@ -50,5 +50,5 @@ class AbstractSKA {
         * **Warning** data will be modified.
         *
         */
-        virtual void decrypt(std::string key, char* data) = 0;
+        virtual std::string decrypt(std::string key, std::string data) = 0;
 };

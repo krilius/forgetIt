@@ -8,6 +8,8 @@
  *
  */
 
+#ifndef __HASHCrypt__
+#define __HASHCrypt__
 
 //----- std -----
 #include <iostream>
@@ -15,11 +17,11 @@
 #include <sstream>
 
 //----- crypto++ -----
+#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
 #include <crypto++/md5.h>   //For MD5
 #include <crypto++/hex.h>   //For Hex convertion
 #include <crypto++/sha.h>   //For SHA
-
-
+#include <crypto++/modes.h>
 
 
 /**
@@ -66,7 +68,35 @@ class HASHCrypt{
         * **Warning** digest will be modified.
         * Digest must be an array of byte with 32 entries
         */
-        void getSHA_256(std::string chain, byte* digest, int size);   //Retourne SHA_256
+        void getSHA_256(std::string chain, byte* digest, int size);   //Return SHA_256
+
+
+        /**
+        * @brief Convert digest to a string of HEX characters
+        *
+        * @param digest : An array of bytes (8 bits)
+        * @param size : Length of the array digest
+        *
+        * @return a string of hex digest equivalent
+        *
+        * Digest must be an array of byte with 16 entries
+        */
+        std::string digestToString(byte* digest, int size); //Return a string of a digest
+
+        /**
+        * @brief Compare 2 digest
+        *
+        * @param digest1 : An array of bytes (8 bits)
+        * @param digest2 : An array of bytes (8 bits)
+        * @param size : Length of the array digest1 or digest2
+        *
+        * @return a boolean if digest1 equals to digest2
+        *
+        * **Warning** if sizeof(digest1) != sizeof(digest 2) : segmentation fault !
+        * Compare the two digest.
+        */
+        bool compareDigest(byte* digest1, byte* digest2, int size);
+
 
     private:
 
@@ -97,3 +127,5 @@ class HASHCrypt{
 
 
 };
+
+#endif

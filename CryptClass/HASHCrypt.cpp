@@ -42,6 +42,8 @@ void HASHCrypt::getSHA_256(std::string chain, byte* digest, int size){
     //Create the SHA-256 on digest parameter
     CryptoPP::SHA256 hash;
     hash.CalculateDigest( digest, (byte*) chain.c_str(), chain.length() );
+
+
 }
 
 
@@ -66,3 +68,37 @@ std::string HASHCrypt::getInvalidDigestSizeError(int sizeRequired, int size){
     return erreurStream.str();
 }
 
+
+bool HASHCrypt::compareDigest(byte* digest1, byte* digest2, int size){
+
+    //Try is more safe
+    try
+    {
+        //Compare the two digest
+        for(int i=0; i<size; i++){
+            //Return false if digest are different
+            if(digest1[i] != digest2[i]){
+                return false;
+            }
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << "Exception catched : " << e.what() << std::endl;
+    }
+
+    //Return true if digest are equals
+    return true;
+}
+
+//Convert digest to string
+std::string HASHCrypt::digestToString(byte* digest, int size){
+
+    CryptoPP::HexEncoder encoder;
+    std::string output;
+    encoder.Attach( new CryptoPP::StringSink( output ) );
+    encoder.Put( digest, size );
+    encoder.MessageEnd();
+
+    return output;
+}
