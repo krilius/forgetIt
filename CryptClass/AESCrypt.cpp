@@ -9,7 +9,7 @@
  */
 
 #include "AESCrypt.hpp"
-#include <iomanip>
+
 //Constructor
 AESCrypt::AESCrypt(){
     this->hash=HASHCrypt(); //Init hash attribute
@@ -27,23 +27,6 @@ std::string AESCrypt::encrypt(std::string key, std::string data){
     byte digest[32];
     hash.getSHA_256(key, digest, (int)sizeof(digest));
 
-
-
-
-    //Add padding for AES
-    /*char pad=0x01;
-    int tmpL=data.length();
-    while(tmpL % 128 != 0){
-        tmpL++;
-        pad+=1;
-
-    }
-    std::cout << "pad:"<< std::hex << pad;
-    while(data.length() % 128 != 0){
-        data+=pad;
-    }
-
-    std::cout << data.length();*/
     //Contain data encrypted
     std::string cipher;
 

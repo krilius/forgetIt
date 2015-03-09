@@ -21,7 +21,6 @@
 #include <crypto++/md5.h>   //For MD5
 #include <crypto++/hex.h>   //For Hex convertion
 #include <crypto++/sha.h>   //For SHA
-#include <crypto++/modes.h>
 
 
 /**

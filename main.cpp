@@ -33,8 +33,18 @@
  */
 int main(int argc, char *argv[]){
 
+    std::string chaine="It's work !";
 
-    std::cout << "It's work !" << std::endl;
+    AESCrypt aes;
+
+    chaine=aes.encrypt("loic", chaine);
+
+    std::cout << chaine << std::endl;
+
+    chaine=aes.decrypt("loic", chaine);
+
+    std::cout << chaine << std::endl;
+
 
     return 0;
 
