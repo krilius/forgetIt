@@ -15,6 +15,7 @@
 
 //----- class -----
 #include "Website.hpp"
+#include "FileManContainer.hpp"
 
 //----- xerces -----
 #include <xercesc/parsers/XercesDOMParser.hpp>
@@ -35,7 +36,7 @@ class FileManParser{
 
 
 
-        std::vector<Website> getWebsites();
+        FileManContainer getContainer();
 
         void initWebsites();
 
@@ -50,7 +51,7 @@ class FileManParser{
 
         xercesc::DOMElement* root;
 
-        std::vector<Website> websites;   ///< contain all websites entries
+        FileManContainer container;   ///< contain all container
 
         std::string data;   ///< contain data to parse
 

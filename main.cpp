@@ -15,11 +15,13 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 //----- class -----
 #include "FileManIOFile.hpp"
 #include "FileManParser.hpp"
-
+#include "FileManContainer.hpp"
+#include "Website.hpp"
 
 /**
  * @fn int main(int argc, char *argv[])
@@ -67,6 +69,10 @@ int main(int argc, char *argv[]){
 
     if(fichier.isReadable())
         std::cout << fichier.getData();*/
+
+    FileManContainer container= parser.getContainer();
+    std::vector<Website> websites= container.getWebsites();
+    std::cout << websites.at(1).getId();
 
     return 0;
 

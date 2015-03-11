@@ -27,6 +27,10 @@
  */
 
 #include <string>
+#include <sstream>
+#include <boost/uuid/uuid.hpp>            // uuid class
+#include <boost/uuid/uuid_generators.hpp> // generators
+#include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
 
 
 
@@ -43,10 +47,13 @@ class Website{
 
     public:
 
+        Website();
+
         /**
         * @brief Containner getters.
         */
 
+        std::string getId();
         std::string getTitle();
         std::string getUrl();
         std::string getUsername();
@@ -57,6 +64,7 @@ class Website{
         /**
         * @brief Containner setters.
         */
+        void setId(std::string title);
         void setTitle(std::string title);
         void setUrl(std::string url);
         void setUsername(std::string username);
@@ -66,7 +74,8 @@ class Website{
 
     private:
 
-        std::string title;          ///< Title en the website
+        std::string id;             ///< id of the website
+        std::string title;          ///< Title of the website
         std::string url;            ///< Url of the website
         std::string username;       ///< username of the account
         std::string password;       ///< password of the account

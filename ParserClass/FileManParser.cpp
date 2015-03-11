@@ -41,8 +41,8 @@ FileManParser::FileManParser(std::string data){
 
 
 
-std::vector<Website> FileManParser::getWebsites(){
-    return this->websites;
+FileManContainer FileManParser::getContainer(){
+    return this->container;
 }
 
 
@@ -64,9 +64,25 @@ void FileManParser::initWebsites(){
         std::string TagName=xercesc::XMLString::transcode(current->getNodeName());
 
         if( current->getNodeType() == xercesc::DOMNode::ELEMENT_NODE ) {
+            Website newWebsite;
 
-            std::cout << this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"title");
-            std::cout << this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"url");
+            newWebsite.setTitle(\
+            this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"title"));
+
+            newWebsite.setUrl(\
+            this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"url"));
+
+            newWebsite.setUsername(\
+            this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"username"));
+
+            newWebsite.setPassword(\
+            this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"password"));
+
+            newWebsite.setDescription(\
+            this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"description"));
+
+
+            this->container.addWebsite(newWebsite);
 
         }
     }

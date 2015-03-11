@@ -11,6 +11,20 @@
 
 #include "Website.hpp"
 
+
+Website::Website(){
+    boost::uuids::uuid uuid = boost::uuids::random_generator()();
+    std::stringstream ss;
+    ss << uuid;
+    this->id=ss.str();
+}
+
+
+
+
+std::string Website::getId(){
+    return this->id;
+}
 std::string Website::getTitle(){
     return this->title;
 }
@@ -29,6 +43,9 @@ std::string Website::getDescription(){
 
 
 
+void Website::setId(std::string id){
+    this->id = id;
+}
 void Website::setTitle(std::string title){
     this->title = title;
 }
