@@ -41,6 +41,21 @@ class AESCrypt : public AbstractSKA {
 
 
        /**
+        * @brief Run encryptRoutine.
+        *
+        * @param key : key used to encrypt data
+        * @param data : contain data to encrypt.
+        *
+        * @return string : correspond to crypted data
+        *
+        * Run encryptRoutine with byte* key or string key
+        *
+        */
+        std::string encrypt(std::string key, std::string data);
+        std::string encrypt(byte* key, std::string data);
+
+
+       /**
         * @brief Encrypt data with AES algorithm.
         *
         * @param key : key used to encrypt data
@@ -48,11 +63,13 @@ class AESCrypt : public AbstractSKA {
         *
         * @return string : correspond to crypted data
         *
-        * Encrypt data, and return them in a string.
+        * Encrypt data, and return them into a string.
         * Padding are blank space.
         *
         */
-        virtual std::string encrypt(std::string key, std::string data);
+        std::string encryptRoutine(std::string data, byte* digest, int size);
+
+
 
         /**
         * @brief Decrypt data from AES algorithm.
@@ -67,9 +84,6 @@ class AESCrypt : public AbstractSKA {
         */
         virtual std::string decrypt(std::string key, std::string data);
 
-        std::string encrypt(byte* key, std::string data);
-
-        std::string encryptRoutine(std::string data, byte* digest, int size);
 
 
     private:

@@ -26,7 +26,7 @@ AESCrypt::~AESCrypt(){
 
 
 
-//Encrypt string
+//Encrypt string with string key
 std::string AESCrypt::encrypt(std::string key, std::string data){
 
     //Generate SHA-256
@@ -36,14 +36,13 @@ std::string AESCrypt::encrypt(std::string key, std::string data){
     return encryptRoutine(data, digest, sizeof(digest));
 
 }
-//Encrypt string
+
+//Encrypt string with byte* key
 std::string AESCrypt::encrypt(byte* key, std::string data){
-
     return encryptRoutine(data, key, 32);
-
 }
 
-
+//The encryptRoutine
 std::string AESCrypt::encryptRoutine(std::string data, byte* digest, int size){
     //Contain data encrypted
     std::string cipher;
@@ -75,14 +74,6 @@ std::string AESCrypt::encryptRoutine(std::string data, byte* digest, int size){
 
 
 }
-
-
-
-
-
-
-
-
 
 
 
