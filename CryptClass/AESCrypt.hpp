@@ -67,6 +67,11 @@ class AESCrypt : public AbstractSKA {
         */
         virtual std::string decrypt(std::string key, std::string data);
 
+        std::string encrypt(byte* key, std::string data);
+
+        std::string encryptRoutine(std::string data, byte* digest, int size);
+
+
     private:
         HASHCrypt hash; ///< hash instance to generate SHA-256 hash code.
 

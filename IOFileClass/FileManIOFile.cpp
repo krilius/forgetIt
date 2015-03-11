@@ -16,6 +16,7 @@ FileManIOFile::FileManIOFile(std::string filename){
     this->filename=filename;
     this->readable=false;
     this->data="";
+    this->key[0]=NULL;
 }
 FileManIOFile::~FileManIOFile(){
 }
@@ -55,6 +56,7 @@ void FileManIOFile::read(std::string key){
 
     if(hash.compareDigest(fileMD5, currentMD5, sizeof(currentMD5))){
         this->readable=true;
+        hash.getSHA_256(key, this->key, 32);
     }
     else{
         this->readable=false;
@@ -70,8 +72,14 @@ void FileManIOFile::write(std::string key, std::string data){
 
     AESCrypt aes;
     HASHCrypt hash;
+    std::string dataEncrypted;
 
-    std::string dataEncrypted=aes.encrypt(key, data);
+    if(this->key!=NULL){
+        dataEncrypted=aes.encrypt(key, data);
+    }
+    else{
+        dataEncrypted=aes.encrypt(this->key, data);
+    }
     byte digest[16];
     hash.getMD5_128(data, digest, sizeof(digest));
 

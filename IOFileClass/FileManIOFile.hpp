@@ -58,7 +58,7 @@ class FileManIOFile {
         * Save data to "filename" attribute.
         *
         */
-        void write(std::string key, std::string data);
+        void write(std::string data,std::string key=NULL);
 
         /**
         * @brief True if file fully decrypted.
@@ -86,6 +86,8 @@ class FileManIOFile {
         std::string data; ///< Data attribute
 
         bool readable; ///< Readable attribute
+
+        byte key[32]; ///< Key in SHA-256
 
 
 

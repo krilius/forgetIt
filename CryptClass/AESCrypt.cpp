@@ -33,6 +33,18 @@ std::string AESCrypt::encrypt(std::string key, std::string data){
     byte digest[32];
     hash.getSHA_256(key, digest, (int)sizeof(digest));
 
+    return encryptRoutine(data, digest, sizeof(digest));
+
+}
+//Encrypt string
+std::string AESCrypt::encrypt(byte* key, std::string data){
+
+    return encryptRoutine(data, key, 32);
+
+}
+
+
+std::string AESCrypt::encryptRoutine(std::string data, byte* digest, int size){
     //Contain data encrypted
     std::string cipher;
 
@@ -41,7 +53,7 @@ std::string AESCrypt::encrypt(std::string key, std::string data){
     try{
         //Create encoder to encrypt data
         CryptoPP::ECB_Mode<CryptoPP::AES>::Encryption encoder;
-        encoder.SetKey( digest, sizeof(digest) );
+        encoder.SetKey( digest, size );
 
         //Encrypt data with StreamTransformationFilter with NO PADDING
         CryptoPP::StringSource ss1(data, true,
@@ -61,7 +73,17 @@ std::string AESCrypt::encrypt(std::string key, std::string data){
     //return encrypted data
     return cipher;
 
+
 }
+
+
+
+
+
+
+
+
+
 
 
 
