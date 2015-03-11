@@ -27,12 +27,7 @@
  */
 
 #include <string>
-#include <sstream>
-#include <boost/uuid/uuid.hpp>            // uuid class
-#include <boost/uuid/uuid_generators.hpp> // generators
-#include <boost/uuid/uuid_io.hpp>         // streaming operators etc.
-
-
+#include "AbstractIDManager.hpp"
 
 /**
  * @class Website Website.hpp "/ParserClass/FileManContainer/Website.hpp"
@@ -42,7 +37,7 @@
  * Container for website data.
  *
  */
-class Website{
+class Website : public AbstractIDManager {
 
 
     public:
@@ -53,7 +48,6 @@ class Website{
         * @brief Containner getters.
         */
 
-        std::string getId();
         std::string getTitle();
         std::string getUrl();
         std::string getUsername();
@@ -64,7 +58,6 @@ class Website{
         /**
         * @brief Containner setters.
         */
-        void setId(std::string title);
         void setTitle(std::string title);
         void setUrl(std::string url);
         void setUsername(std::string username);
@@ -74,7 +67,6 @@ class Website{
 
     private:
 
-        std::string id;             ///< id of the website
         std::string title;          ///< Title of the website
         std::string url;            ///< Url of the website
         std::string username;       ///< username of the account

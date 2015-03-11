@@ -1,39 +1,30 @@
 /**
- * @file AbstractFileContainer.hpp
- * @brief FileManContainer class definitions
+ * @file AbstractIDManager.cpp
+ * @brief AbstractIDManager class definitions
  * @author manzerbredes
  * @date 11 Mars 2015
  *
- * Contain all definitions of FileManContainer class.
+ * Contain all implémentations of AbstractIDManager class.
  *
  */
 
-#ifndef __FileManContainer__
-#define __FileManContainer__
+#include "AbstractIDManager.hpp"
 
+AbstractIDManager::AbstractIDManager(){
+    this->id=this->generateId();
+}
 
+void AbstractIDManager::setId(std::string id){
+    this->id = id;
+}
 
-/**
- * @class Website Website.hpp "/ParserClass/FileManContainer/Website.hpp"
- * @brief Class for manager all FileMan container (websites etc...)
- * @author manzerbredes
- *
- *
- *
- */
+std::string AbstractIDManager::generateId(){
+    boost::uuids::uuid uuid = boost::uuids::random_generator()();
+    std::stringstream ss;
+    ss << uuid;
+    return ss.str();
+}
 
-class FileManContainer{
-
-    public:
-        FileManContainer();
-
-        void addWebsite(Website website);
-        std::vector<Website> getWebsites();
-
-    private:
-
-        std::vector<Website> websites;
-};
-
-
-#endif
+std::string AbstractIDManager::getId(){
+    return this->id;
+}
