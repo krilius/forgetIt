@@ -29,6 +29,7 @@
  *
  * This class provide AES encrypt and decrypt.
  *
+ * \bug Find another solution for managing padding.
  */
 
 class AESCrypt : public AbstractSKA {
