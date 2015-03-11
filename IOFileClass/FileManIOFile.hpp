@@ -8,6 +8,10 @@
  *
  */
 
+
+#ifndef __FileManIOFile__
+#define __FileManIOFile__
+
 //--- std -----
 #include <iostream>
 #include <string>
@@ -88,3 +92,5 @@ class FileManIOFile {
 
 
 };
+
+#endif
