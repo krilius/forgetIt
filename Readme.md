@@ -5,6 +5,7 @@
 
 > **forgetIt** est un projet open-source permettant une gestion, une sauvegarde de vos mots de passe de manière sécurisé.<br />
 Pour cela **forgetIt** utilise des algorithmes de cryptages ayant fait leurs preuves issue de la bibliothèque *crypto++*.<br />
+L'analyse des fichiers une fois décryptés, s'organisera autour des APIs Xerces.
 La conception d'une interface graphique est prévue, et sera basé sur la bibliothèque *GTK+*.<br />
 
 ##Suite en construction...
