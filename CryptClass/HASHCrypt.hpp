@@ -28,7 +28,7 @@
  * @brief Hashing class
  * @author manzerbredes
  *
- * Class who handle hashing functions to a byte* parameter.
+ * Class who handle hashing functions on a byte* parameter.
  * HASHCrypt try to detect errors and throw exceptions.
  * HASHCrypt use crypto++ library.
  */
@@ -111,6 +111,7 @@ class HASHCrypt{
         */
         void checkDigestSize(int sizeRequired, int size);
 
+
         /**
         * @brief Make and error message.
         *
@@ -122,8 +123,6 @@ class HASHCrypt{
         * Construct an error message with sizeRequired and size.
         */
         std::string getInvalidDigestSizeError(int sizeRequired, int size);
-
-
 
 };
 

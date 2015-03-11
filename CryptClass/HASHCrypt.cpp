@@ -8,8 +8,11 @@
  *
  */
 
-
+//----- class -----
 #include "HASHCrypt.hpp"
+
+
+
 
 
 //Constructor
@@ -47,7 +50,7 @@ void HASHCrypt::getSHA_256(std::string chain, byte* digest, int size){
 }
 
 
-
+//Check the size of the digest
 void HASHCrypt::checkDigestSize(int sizeRequired, int size){
     try{
         if(size !=sizeRequired){
@@ -61,7 +64,7 @@ void HASHCrypt::checkDigestSize(int sizeRequired, int size){
     }
 }
 
-
+//Make the error
 std::string HASHCrypt::getInvalidDigestSizeError(int sizeRequired, int size){
     std::ostringstream erreurStream;
     erreurStream << "Invalid digest size ! ("<< sizeRequired <<" bytes required and "<< size <<" given)";
@@ -69,6 +72,7 @@ std::string HASHCrypt::getInvalidDigestSizeError(int sizeRequired, int size){
 }
 
 
+//Compare 2 digest (same size)
 bool HASHCrypt::compareDigest(byte* digest1, byte* digest2, int size){
 
     //Try is more safe
@@ -90,6 +94,7 @@ bool HASHCrypt::compareDigest(byte* digest1, byte* digest2, int size){
     //Return true if digest are equals
     return true;
 }
+
 
 //Convert digest to string
 std::string HASHCrypt::digestToString(byte* digest, int size){

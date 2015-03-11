@@ -8,7 +8,11 @@
  *
  */
 
+//----- class -----
 #include "AESCrypt.hpp"
+
+
+
 
 //Constructor
 AESCrypt::AESCrypt(){
@@ -20,6 +24,8 @@ AESCrypt::~AESCrypt(){
 }
 
 
+
+
 //Encrypt string
 std::string AESCrypt::encrypt(std::string key, std::string data){
 
@@ -29,6 +35,7 @@ std::string AESCrypt::encrypt(std::string key, std::string data){
 
     //Contain data encrypted
     std::string cipher;
+
 
     //Use try, catch to be ensure no problems happening
     try{
@@ -56,6 +63,8 @@ std::string AESCrypt::encrypt(std::string key, std::string data){
 
 }
 
+
+
 //Decrypt string
 std::string AESCrypt::decrypt(std::string key, std::string data){
 
@@ -78,7 +87,7 @@ std::string AESCrypt::decrypt(std::string key, std::string data){
         CryptoPP::StringSource ss3( data, true,
                 new CryptoPP::StreamTransformationFilter( decoder,
                     new CryptoPP::StringSink( cipher ),
-                    CryptoPP::StreamTransformationFilter::ZEROS_PADDING
+                    CryptoPP::StreamTransformationFilter::NO_PADDING
                 )
         );
     }

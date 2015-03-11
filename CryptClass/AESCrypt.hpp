@@ -8,6 +8,9 @@
  *
  */
 
+#ifndef __AESCrypt__
+#define __AESCrypt__
+
 //----- std -----
 #include "AbstractSKA.hpp"
 #include "HASHCrypt.hpp"
@@ -39,7 +42,7 @@ class AESCrypt : public AbstractSKA {
        /**
         * @brief Encrypt data with AES algorithm.
         *
-        * @param key : key to encrypt data
+        * @param key : key used to encrypt data
         * @param data : contain data to encrypt.
         *
         * @return string : correspond to crypted data
@@ -58,8 +61,7 @@ class AESCrypt : public AbstractSKA {
         *
         * @return string : correspond to decrypted data
         *
-        * Decrypt data, and return them in a string.
-        * Padding is not removed.
+        * Decrypt data, and return them into a string.
         *
         */
         virtual std::string decrypt(std::string key, std::string data);
@@ -69,3 +71,5 @@ class AESCrypt : public AbstractSKA {
 
 
 };
+
+#endif

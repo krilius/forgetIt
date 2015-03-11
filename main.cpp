@@ -17,9 +17,9 @@
 #include <string>
 
 //----- class -----
-#include "CryptClass/AESCrypt.hpp"
-#include "CryptClass/HASHCrypt.hpp"
-
+#include "AESCrypt.hpp"
+#include "HASHCrypt.hpp"
+#include "FileManIOFile.hpp"
 
 
 
@@ -34,17 +34,18 @@
 int main(int argc, char *argv[]){
 
     std::string chaine="It's work !";
-
+    std::string key="loic";
     AESCrypt aes;
 
-    chaine=aes.encrypt("loic", chaine);
 
-    std::cout << chaine << std::endl;
+    FileManIOFile fichier = FileManIOFile("Doxygen/bob2.bin");
 
-    chaine=aes.decrypt("loic", chaine);
+    fichier.write(key,chaine);
 
-    std::cout << chaine << std::endl;
+    fichier.read(key);
 
+    if(fichier.isReadable())
+        std::cout << fichier.getData();
 
     return 0;
 

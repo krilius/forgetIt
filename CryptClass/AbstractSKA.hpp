@@ -7,6 +7,8 @@
  * Specify which method the algorithm must be implement.
  *
  */
+#ifndef __AbstractSKA__
+#define __AbstractSKA__
 
 #include <string>
 
@@ -52,3 +54,5 @@ class AbstractSKA {
         */
         virtual std::string decrypt(std::string key, std::string data) = 0;
 };
+
+#endif
