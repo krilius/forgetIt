@@ -74,40 +74,32 @@ void FileManIOFile::read(std::string key){
 void FileManIOFile::write(std::string key,std::string data){
 
     AESCrypt aes;
-    HASHCrypt hash;
     std::string dataEncrypted;
 
     dataEncrypted=aes.encrypt(key, data);
 
+    this->writeRoutine(data, dataEncrypted);
 
-    byte digest[16];
-    hash.getMD5_128(data, digest, sizeof(digest));
-
-
-    std::ofstream file;
-    file.open(this->filename, std::ios::out | std::ios::binary);
-
-    file.write((char *) digest,sizeof(digest));
-
-
-    file.write(dataEncrypted.c_str(), dataEncrypted.size());
-
-
-
-    file.close();
-
-    this->data=data;
 
 }
 
 void FileManIOFile::write(std::string data){
-
+    if(not(this->readable)){
+        std::cout << "Can't write data without key (read it before) !" << std::endl;
+        std::exit(EXIT_FAILURE);
+    }
     AESCrypt aes;
-    HASHCrypt hash;
     std::string dataEncrypted;
 
     dataEncrypted=aes.encrypt(this->key, data);
+    this->writeRoutine(data, dataEncrypted);
 
+
+}
+
+
+void FileManIOFile::writeRoutine(std::string data, std::string dataEncrypted){
+    HASHCrypt hash;
 
     byte digest[16];
     hash.getMD5_128(data, digest, sizeof(digest));
@@ -126,8 +118,9 @@ void FileManIOFile::write(std::string data){
     file.close();
 
     this->data=data;
-
 }
+
+
 
 std::string FileManIOFile::getData(){
     return this->data;

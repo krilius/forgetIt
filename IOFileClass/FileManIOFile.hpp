@@ -50,16 +50,34 @@ class FileManIOFile {
         */
         void read(std::string key);
 
+
         /**
-        * @brief Read encrypted file.
+        * @brief Write data in encrypted file.
         *
         * @param key : key to encrypt data
+        * @param data : data to write
         *
-        * Save data to "filename" attribute.
+        * Write the file with or without key
+        * To write data without key, you need to read it before (to save the key
+        * in attribute key;
         *
         */
         void write(std::string key, std::string data);
         void write(std::string data);
+
+
+        /**
+        * @brief Write data in encrypted file.
+        *
+        * @param data : data to write (for MD5)
+        * @param dataEncrypted : data to write
+        *
+        * Write encryptedData to filename
+        *
+        */
+        void writeRoutine(std::string data, std::string dataEncrypted);
+
+
 
 
         /**
