@@ -17,10 +17,8 @@
 #include <string>
 
 //----- class -----
-#include "AESCrypt.hpp"
-#include "HASHCrypt.hpp"
 #include "FileManIOFile.hpp"
-
+#include "FileManParser.hpp"
 
 
 /**
@@ -33,7 +31,30 @@
  */
 int main(int argc, char *argv[]){
 
-    std::string chaine="It's work !";
+
+
+
+    std::string xml="<?xml version=\"1.0\" standalone=\"yes\" ?>\n\
+<forgetIt>         \n\
+<websites>       \n\
+      \n\
+    </websites>               \n\
+</forgetIt>        \n\
+                     ";
+
+
+    FileManParser parser(xml);
+
+
+
+    //std::cout << std::endl << parser.getData() << std::endl;
+
+
+
+
+
+
+    /*std::string chaine="It's work !";
     std::string key="loic";
     AESCrypt aes;
 
@@ -45,7 +66,7 @@ int main(int argc, char *argv[]){
     fichier.read(key);
 
     if(fichier.isReadable())
-        std::cout << fichier.getData();
+        std::cout << fichier.getData();*/
 
     return 0;
 
