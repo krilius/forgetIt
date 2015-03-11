@@ -38,9 +38,16 @@ int main(int argc, char *argv[]){
     AESCrypt aes;
 
 
-    FileManIOFile fichier = FileManIOFile("Doxygen/bob2.bin");
+    FileManIOFile fichier = FileManIOFile("Doxygen/bob.bin");
 
-    fichier.write(key,chaine);
+    fichier.write(key, chaine);
+
+    fichier.read(key);
+
+    if(fichier.isReadable())
+        std::cout << fichier.getData();
+
+    fichier.write(chaine+" YES");
 
     fichier.read(key);
 

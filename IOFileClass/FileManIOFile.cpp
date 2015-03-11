@@ -16,7 +16,7 @@ FileManIOFile::FileManIOFile(std::string filename){
     this->filename=filename;
     this->readable=false;
     this->data="";
-    this->key[0]=NULL;
+    this->key;
 }
 FileManIOFile::~FileManIOFile(){
 }
@@ -68,18 +68,18 @@ void FileManIOFile::read(std::string key){
 
 }
 
-void FileManIOFile::write(std::string key, std::string data){
+
+
+
+void FileManIOFile::write(std::string key,std::string data){
 
     AESCrypt aes;
     HASHCrypt hash;
     std::string dataEncrypted;
 
-    if(this->key!=NULL){
-        dataEncrypted=aes.encrypt(key, data);
-    }
-    else{
-        dataEncrypted=aes.encrypt(this->key, data);
-    }
+    dataEncrypted=aes.encrypt(key, data);
+
+
     byte digest[16];
     hash.getMD5_128(data, digest, sizeof(digest));
 
@@ -100,6 +100,34 @@ void FileManIOFile::write(std::string key, std::string data){
 
 }
 
+void FileManIOFile::write(std::string data){
+
+    AESCrypt aes;
+    HASHCrypt hash;
+    std::string dataEncrypted;
+
+    dataEncrypted=aes.encrypt(this->key, data);
+
+
+    byte digest[16];
+    hash.getMD5_128(data, digest, sizeof(digest));
+
+
+    std::ofstream file;
+    file.open(this->filename, std::ios::out | std::ios::binary);
+
+    file.write((char *) digest,sizeof(digest));
+
+
+    file.write(dataEncrypted.c_str(), dataEncrypted.size());
+
+
+
+    file.close();
+
+    this->data=data;
+
+}
 
 std::string FileManIOFile::getData(){
     return this->data;

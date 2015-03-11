@@ -58,7 +58,9 @@ class FileManIOFile {
         * Save data to "filename" attribute.
         *
         */
-        void write(std::string data,std::string key=NULL);
+        void write(std::string key, std::string data);
+        void write(std::string data);
+
 
         /**
         * @brief True if file fully decrypted.
