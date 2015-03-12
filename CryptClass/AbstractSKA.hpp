@@ -7,10 +7,14 @@
  * Specify which method the algorithm must be implement.
  *
  */
+
 #ifndef __AbstractSKA__
 #define __AbstractSKA__
 
+
+//----- std -----
 #include <string>
+
 
 
 /**
@@ -18,17 +22,18 @@
  * @brief Class for Symmetric-Key Algorithm (SKA)
  * @author manzerbredes
  *
- * This class should not be instanciate directly.
+ * This class should not be instantiate directly.
  *
  */
-
 class AbstractSKA {
 
     public:
-        AbstractSKA(){
-        }
-        ~AbstractSKA(){
-        }
+        //Constructor
+        AbstractSKA();
+
+        //Destructor
+        ~AbstractSKA();
+
 
        /**
         * @brief Encrypt data.
@@ -41,6 +46,7 @@ class AbstractSKA {
         *
         */
         virtual std::string encrypt(std::string key, std::string data) = 0;
+
 
        /**
         * @brief Decrypt data.
