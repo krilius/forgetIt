@@ -52,36 +52,52 @@ std::string FileManParser::getData(){ return this->data;};
 
 void FileManParser::initWebsites(){
 
+    //Get websites élément
     xercesc::DOMElement* websitesElement=this->getChildByTagName(this->root, "websites");
 
+    //Make list of website
+    xercesc::DOMNodeList* websiteList=websitesElement->getChildNodes();
+    XMLSize_t websiteCount = websiteList->getLength();
 
-    xercesc::DOMNodeList* nodeList=websitesElement->getChildNodes();
-    XMLSize_t nodeCount = nodeList->getLength();
 
-    for(int i=0;i<nodeCount;i++){
+    //Read the list of website
+    for(int i=0;i<websiteCount;i++){
 
-        xercesc::DOMNode* current=nodeList->item(i);
+        xercesc::DOMNode* current=websiteList->item(i);
         std::string TagName=xercesc::XMLString::transcode(current->getNodeName());
 
         if( current->getNodeType() == xercesc::DOMNode::ELEMENT_NODE ) {
             Website newWebsite;
 
+            //Get id
+            XMLCh* idXMLCh=(XMLCh*)((xercesc::DOMElement*)current)->getAttribute((XMLCh*) xercesc::XMLString::transcode("id"));
+            //Convert id to string from XMLCh
+            std::string id=xercesc::XMLString::transcode(idXMLCh);
+
+            //Assign id
+            newWebsite.setId(id);
+
+            //Assign title
             newWebsite.setTitle(\
             this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"title"));
 
+            //Assign url
             newWebsite.setUrl(\
             this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"url"));
 
+            //Assign username
             newWebsite.setUsername(\
             this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"username"));
 
+            //Assign password
             newWebsite.setPassword(\
             this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"password"));
 
+            //Assign description
             newWebsite.setDescription(\
             this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"description"));
 
-
+            //Add website to container
             this->container.addWebsite(newWebsite);
 
         }

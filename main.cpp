@@ -72,7 +72,7 @@ int main(int argc, char *argv[]){
 
     FileManContainer container= parser.getContainer();
     std::vector<Website> websites= container.getWebsites();
-    std::cout << websites.at(1).getId();
+    std::cout << websites.at(0).getId();
 
     return 0;
 
