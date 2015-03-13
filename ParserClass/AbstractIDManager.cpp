@@ -14,6 +14,15 @@ AbstractIDManager::AbstractIDManager(){
     this->id=this->generateId();
 }
 
+AbstractIDManager::AbstractIDManager(std::string id){
+    this->id=id;
+}
+AbstractIDManager::~AbstractIDManager(){
+    this->id=id;
+}
+
+
+
 void AbstractIDManager::setId(std::string id){
     this->id = id;
 }

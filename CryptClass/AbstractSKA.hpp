@@ -28,13 +28,6 @@
 class AbstractSKA {
 
     public:
-        //Constructor
-        AbstractSKA();
-
-        //Destructor
-        ~AbstractSKA();
-
-
        /**
         * @brief Encrypt data.
         *
