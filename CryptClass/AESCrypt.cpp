@@ -21,6 +21,7 @@ AESCrypt::AESCrypt(){
 
 //Destructor
 AESCrypt::~AESCrypt(){
+
 }
 
 

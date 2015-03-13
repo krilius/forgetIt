@@ -45,27 +45,31 @@ class HASHCrypt{
          */
         ~HASHCrypt();
 
+
         /**
         * @brief Create an MD5 over 128 bits on a digest array of bytes.
         *
         * @param chain : Chain to hash
         * @param digest : An array of bytes (8 bits)
-        * @param size : Length of the array digest
+        * @param size : Length of digest
         *
         * **Warning** digest will be modified.
         * Digest must be an array of byte with 16 entries
+        * Invalid size can cause "Segmentation Fault"
         */
         void getMD5_128(std::string chain, byte* digest, int size);
+
 
         /**
         * @brief Create an SHA over 256 bits on a digest array of bytes.
         *
         * @param chain : Chain to hash
         * @param digest : An array of bytes (8 bits)
-        * @param size : Length of the array digest
+        * @param size : Length of digest
         *
         * **Warning** digest will be modified.
         * Digest must be an array of byte with 32 entries
+        * Invalid size can cause "Segmentation Fault"
         */
         void getSHA_256(std::string chain, byte* digest, int size);   //Return SHA_256
 
@@ -73,14 +77,15 @@ class HASHCrypt{
         /**
         * @brief Convert digest to a string of HEX characters
         *
-        * @param digest : An array of bytes (8 bits)
-        * @param size : Length of the array digest
+        * @param digest : an array of bytes (8 bits)
+        * @param size : length of digest
         *
-        * @return a string of hex digest equivalent
+        * @return return a string of hex digest equivalent
         *
-        * Digest must be an array of byte with 16 entries
+        * Digest must be an array of byte.
         */
-        std::string digestToString(byte* digest, int size); //Return a string of a digest
+        std::string digestToString(byte* digest, int size); //Return a string
+
 
         /**
         * @brief Compare 2 digest
@@ -89,10 +94,11 @@ class HASHCrypt{
         * @param digest2 : An array of bytes (8 bits)
         * @param size : Length of the array digest1 or digest2
         *
-        * @return a boolean if digest1 equals to digest2
+        * @return return a boolean (true if digest1 equals to digest2 and false else)
         *
         * **Warning** if sizeof(digest1) != sizeof(digest 2) : segmentation fault !
         * Compare the two digest.
+        *
         */
         bool compareDigest(byte* digest1, byte* digest2, int size);
 
@@ -105,7 +111,7 @@ class HASHCrypt{
         * @param sizeRequired : Digest size expected
         * @param size : Given digest size
         *
-        * Throw an exception, and stop the programm if
+        * Throw an exception, and stop the program if
         * sizeRequired != size
         * Use getInvalidDigestSizeError method.
         */
@@ -113,7 +119,7 @@ class HASHCrypt{
 
 
         /**
-        * @brief Make and error message.
+        * @brief Make "invalid digest size" error message.
         *
         * @param sizeRequired : Digest size expected
         * @param size : Given digest size

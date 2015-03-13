@@ -15,13 +15,13 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 //----- class -----
-#include "AESCrypt.hpp"
-#include "HASHCrypt.hpp"
 #include "FileManIOFile.hpp"
-
-
+#include "FileManParser.hpp"
+#include "FileManContainer.hpp"
+#include "Website.hpp"
 
 /**
  * @fn int main(int argc, char *argv[])
@@ -33,7 +33,30 @@
  */
 int main(int argc, char *argv[]){
 
-    std::string chaine="It's work !";
+
+
+
+    std::string xml="<?xml version=\"1.0\" standalone=\"yes\" ?>\n\
+<forgetIt>         \n\
+<websites>       \n\
+      \n\
+    </websites>               \n\
+</forgetIt>        \n\
+                     ";
+
+
+    FileManParser parser(xml);
+
+
+
+    //std::cout << std::endl << parser.getData() << std::endl;
+
+
+
+
+
+
+    /*std::string chaine="It's work !";
     std::string key="loic";
     AESCrypt aes;
 
@@ -52,7 +75,11 @@ int main(int argc, char *argv[]){
     fichier.read(key);
 
     if(fichier.isReadable())
-        std::cout << fichier.getData();
+        std::cout << fichier.getData();*/
+
+    FileManContainer container= parser.getContainer();
+    std::vector<Website> websites= container.getWebsites();
+    std::cout << websites.at(0).getId();
 
     return 0;
 

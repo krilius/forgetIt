@@ -8,10 +8,9 @@
  *
  */
 
+
 //----- class -----
 #include "HASHCrypt.hpp"
-
-
 
 
 
@@ -25,6 +24,7 @@ HASHCrypt::~HASHCrypt(){
 
 
 
+//Contruct MD5 over 128 bits and put it into digest
 void HASHCrypt::getMD5_128(std::string chain, byte* digest, int size){
 
     //Digest size controller
@@ -37,6 +37,8 @@ void HASHCrypt::getMD5_128(std::string chain, byte* digest, int size){
 }
 
 
+
+//Contruct SHA-256 and put it into digest
 void HASHCrypt::getSHA_256(std::string chain, byte* digest, int size){
 
     //Digest size controller
@@ -49,27 +51,6 @@ void HASHCrypt::getSHA_256(std::string chain, byte* digest, int size){
 
 }
 
-
-//Check the size of the digest
-void HASHCrypt::checkDigestSize(int sizeRequired, int size){
-    try{
-        if(size !=sizeRequired){
-            throw this->getInvalidDigestSizeError(sizeRequired, size);
-        }
-
-    }
-    catch(std::string erreur){
-        std::cerr << erreur <<std::endl;
-        std::exit(EXIT_FAILURE);
-    }
-}
-
-//Make the error
-std::string HASHCrypt::getInvalidDigestSizeError(int sizeRequired, int size){
-    std::ostringstream erreurStream;
-    erreurStream << "Invalid digest size ! ("<< sizeRequired <<" bytes required and "<< size <<" given)";
-    return erreurStream.str();
-}
 
 
 //Compare 2 digest (same size)
@@ -96,6 +77,7 @@ bool HASHCrypt::compareDigest(byte* digest1, byte* digest2, int size){
 }
 
 
+
 //Convert digest to string
 std::string HASHCrypt::digestToString(byte* digest, int size){
 
@@ -106,4 +88,29 @@ std::string HASHCrypt::digestToString(byte* digest, int size){
     encoder.MessageEnd();
 
     return output;
+}
+
+
+
+//Check the size of the digest
+void HASHCrypt::checkDigestSize(int sizeRequired, int size){
+    try{
+        if(size !=sizeRequired){
+            throw this->getInvalidDigestSizeError(sizeRequired, size);
+        }
+
+    }
+    catch(std::string erreur){
+        std::cerr << erreur <<std::endl;
+        std::exit(EXIT_FAILURE);
+    }
+}
+
+
+
+//Make the error
+std::string HASHCrypt::getInvalidDigestSizeError(int sizeRequired, int size){
+    std::ostringstream erreurStream;
+    erreurStream << "Invalid digest size ! ("<< sizeRequired <<" bytes required and "<< size <<" given)";
+    return erreurStream.str();
 }
