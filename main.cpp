@@ -33,7 +33,12 @@
  */
 int main(int argc, char *argv[]){
 
+    /*
+    FileManIOFile fichier("Doxygen/bob.bin");
 
+    fichier.read("loic");
+
+    std::cout << fichier.getData();*/
 
 
     std::string xml="<?xml version=\"1.0\" standalone=\"yes\" ?>\n\

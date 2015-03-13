@@ -12,32 +12,42 @@
 #ifndef __FileManIOFile__
 #define __FileManIOFile__
 
-//--- std -----
+
+//----- std -----
 #include <iostream>
 #include <string>
 #include <fstream>
+
 
 //----- class -----
 #include "HASHCrypt.hpp"
 #include "AESCrypt.hpp"
 
 
+
+
 /**
  * @class FileManIOFile FileManIOFile.hpp "/CryptClass/FileManIOFile.hpp"
- * @brief Class for quick open and close encrypted file.
+ * @brief Class for quick open and close encrypted files.
  * @author manzerbredes
  *
  * -----File organisation-----
  *
- * 16 first bytes : md5 of decrypted file
- * rest of the file : data encrypted (ASE for now)
+ * 16 first bytes : md5 of decrypted data
+ * Rest of the file : data encrypted (ASE for now)
  *
+ * \bug Need check if file exist and can be opened
  */
 class FileManIOFile {
 
     public:
+
+        //Constructor
         FileManIOFile(std::string filename);
+
+        //Destructor
         ~FileManIOFile();
+
 
         /**
         * @brief Read encrypted file.
@@ -45,7 +55,8 @@ class FileManIOFile {
         * @param key : key to encrypt data
         *
         * Read data from "filename" attribute.
-        * If file fully decrypted, readable var switch to true.
+        * If file fully decrypted, readable var switch to true,
+        * and key saved in key attribute (before been crypted with SHA-256 algorithm).
         *
         */
         void read(std::string key);
@@ -57,14 +68,39 @@ class FileManIOFile {
         * @param key : key to encrypt data
         * @param data : data to write
         *
-        * Write the file with or without key
+        * Write the file with or without key.
         * To write data without key, you need to read it before (to save the key
-        * in attribute key;
+        * in attribute key).
         *
         */
         void write(std::string key, std::string data);
         void write(std::string data);
 
+
+        /**
+        * @brief True if file fully decrypted.
+        *
+        * @return readable attribute
+        *
+        * Return "readable" attribute.
+        *
+        */
+        bool isReadable();
+
+
+        /**
+        * @brief Get data attribute.
+        *
+        * @return data attribute.
+        *
+        * **Warning** if data not fully decrypted (readable!=true),
+        * data will be unreadable (unparsable).
+        *
+        */
+        std::string getData();
+
+
+    private:
 
         /**
         * @brief Write data in encrypted file.
@@ -78,28 +114,11 @@ class FileManIOFile {
         void writeRoutine(std::string data, std::string dataEncrypted);
 
 
+        //Attributes:
 
+        AESCrypt aes; ///< AES instance
 
-        /**
-        * @brief True if file fully decrypted.
-        *
-        * Return "readable" attribute.
-        *
-        */
-        bool isReadable();
-
-
-        /**
-        * @brief Get data attribute.
-        *
-        * Return "data" attribute.
-        *
-        * **Warning** if data not fully decrypted (readable!=true),
-        * data will be unreadable.
-        */
-        std::string getData();
-
-    private:
+        HASHCrypt hash; ///< HASH instance
 
         std::string filename; ///< Filename attribute
 
@@ -108,10 +127,6 @@ class FileManIOFile {
         bool readable; ///< Readable attribute
 
         byte key[32]; ///< Key in SHA-256
-
-
-
-
 
 };
 
