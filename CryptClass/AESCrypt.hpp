@@ -28,15 +28,18 @@
  * @author manzerbredes
  *
  * This class provide AES encrypt and decrypt.
+ * Key used is 32 bytes key (256 bits).
  *
  * \bug Find another solution for managing padding.
  */
-
 class AESCrypt : public AbstractSKA {
 
 
     public:
+        //Constructor
         AESCrypt();
+
+        //Destructor
         ~AESCrypt();
 
 
@@ -48,14 +51,32 @@ class AESCrypt : public AbstractSKA {
         *
         * @return string : correspond to crypted data
         *
-        * Run encryptRoutine with byte* key or string key
+        * Run encryptRoutine with byte* key or string key.
+        * Allow you to choose between string key or byte key.
         *
         */
         std::string encrypt(std::string key, std::string data);
         std::string encrypt(byte* key, std::string data);
 
 
-       /**
+        /**
+        * @brief Decrypt data from AES algorithm.
+        *
+        * @param key : key used to encrypt data
+        * @param data : contain data to decrypt from AES encrypt.
+        *
+        * @return string : correspond to decrypted data
+        *
+        * Decrypt data, and return them into a string.
+        *
+        */
+        std::string decrypt(std::string key, std::string data);
+
+
+
+    private:
+
+      /**
         * @brief Encrypt data with AES algorithm.
         *
         * @param key : key used to encrypt data
@@ -70,23 +91,8 @@ class AESCrypt : public AbstractSKA {
         std::string encryptRoutine(std::string data, byte* digest, int size);
 
 
+        //Attributes:
 
-        /**
-        * @brief Decrypt data from AES algorithm.
-        *
-        * @param key : key used to encrypt data
-        * @param data : contain data to decrypt from AES encrypt.
-        *
-        * @return string : correspond to decrypted data
-        *
-        * Decrypt data, and return them into a string.
-        *
-        */
-        virtual std::string decrypt(std::string key, std::string data);
-
-
-
-    private:
         HASHCrypt hash; ///< hash instance to generate SHA-256 hash code.
 
 

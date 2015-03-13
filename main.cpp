@@ -48,35 +48,6 @@ int main(int argc, char *argv[]){
     FileManParser parser(xml);
 
 
-
-    //std::cout << std::endl << parser.getData() << std::endl;
-
-
-
-
-
-
-    /*std::string chaine="It's work !";
-    std::string key="loic";
-    AESCrypt aes;
-
-
-    FileManIOFile fichier = FileManIOFile("Doxygen/bob.bin");
-
-    fichier.write(key, chaine);
-
-    fichier.read(key);
-
-    if(fichier.isReadable())
-        std::cout << fichier.getData();
-
-    fichier.write(chaine+" YES");
-
-    fichier.read(key);
-
-    if(fichier.isReadable())
-        std::cout << fichier.getData();*/
-
     FileManContainer container= parser.getContainer();
     std::vector<Website> websites= container.getWebsites();
     std::cout << websites.at(0).getId();

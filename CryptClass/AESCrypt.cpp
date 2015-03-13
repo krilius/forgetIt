@@ -8,9 +8,9 @@
  *
  */
 
+
 //----- class -----
 #include "AESCrypt.hpp"
-
 
 
 
@@ -26,7 +26,6 @@ AESCrypt::~AESCrypt(){
 
 
 
-
 //Encrypt string with string key
 std::string AESCrypt::encrypt(std::string key, std::string data){
 
@@ -38,10 +37,14 @@ std::string AESCrypt::encrypt(std::string key, std::string data){
 
 }
 
+
+
 //Encrypt string with byte* key
 std::string AESCrypt::encrypt(byte* key, std::string data){
     return encryptRoutine(data, key, 32);
 }
+
+
 
 //The encryptRoutine
 std::string AESCrypt::encryptRoutine(std::string data, byte* digest, int size){
@@ -78,11 +81,10 @@ std::string AESCrypt::encryptRoutine(std::string data, byte* digest, int size){
 
 
 
-
 //Decrypt string
 std::string AESCrypt::decrypt(std::string key, std::string data){
 
-
+    //Get SHA-256
     byte digest[32];
     hash.getSHA_256(key, digest, (int)sizeof(digest));
 
@@ -111,13 +113,14 @@ std::string AESCrypt::decrypt(std::string key, std::string data){
         exit(1);
     }
 
-
+    //Remove ZEROS padding
     int i=0;
     for(i=0;i<cipher.length();i++){
         if(cipher[i]=='\0')
             break;
     }
-    cipher.erase(i,cipher.length()-1);
+    cipher.erase(i,cipher.length()-1); //Erase ZEROS
+
     //return decrypted data
     return cipher;
 }
