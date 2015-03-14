@@ -35,8 +35,20 @@ FileManParser::FileManParser(std::string data){
 }
 
 
+std::string FileManParser::getDocument(){
+    std::string data=(this->document)->write_to_string();
+    return data;
+}
 
 
+std::vector<Website>* FileManParser::getWebsites(){
+    return this->websites;
+}
+
+
+
+
+//----------------Container part------------------------
 void FileManParser::initWebsites(){
     this->websites=new std::vector<Website>;
 
@@ -76,33 +88,18 @@ void FileManParser::initWebsites(){
             }
             else if(currentChild->get_name().compare("description")==0){
                 newWebsite.setDescription(cdataContent);
-
             }
-
-
         }
-
         this->websites->push_back(newWebsite);
-
-
     }
-
 }
 
 
 
 
-std::string FileManParser::getDocument(){
-    std::string data=(this->document)->write_to_string();
-    return data;
-}
 
 
 
-std::vector<Website>* FileManParser::getWebsites(){
-    return this->websites;
-
-}
 
 
 void FileManParser::updateParser(){

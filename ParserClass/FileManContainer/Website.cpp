@@ -12,14 +12,14 @@
 #include "Website.hpp"
 
 
+//Constructor
 Website::Website(){
 
 }
 
 
 
-
-
+//----- Getters -----
 std::string Website::getTitle(){
     return this->title;
 }
@@ -38,7 +38,7 @@ std::string Website::getDescription(){
 
 
 
-
+//----- Setters -----
 void Website::setTitle(std::string title){
     this->title = title;
 }
@@ -56,6 +56,8 @@ void Website::setDescription(std::string description){
 }
 
 
+
+//Equality comparator
 bool Website::operator==(const Website& website) const{
     if((this->getId()).compare(website.getId())==0){
         return true;

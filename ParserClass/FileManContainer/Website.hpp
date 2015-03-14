@@ -64,9 +64,12 @@ class Website : public AbstractIDManager {
         void setPassword(std::string password);
         void setDescription(std::string description);
 
-        //bool operator==(Website const& website1, Website const& website2) const;
 
+      /**
+        * @brief Equality comparator
+        */
         bool operator==(const Website& website) const;
+
     private:
 
         std::string title;          ///< Title of the website
