@@ -54,3 +54,12 @@ void Website::setPassword(std::string password){
 void Website::setDescription(std::string description){
     this->description = description;
 }
+
+
+bool Website::operator==(const Website& website) const{
+    if((this->getId()).compare(website.getId())==0){
+        return true;
+    }
+    return false;
+}
+

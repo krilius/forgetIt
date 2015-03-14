@@ -46,7 +46,7 @@
 
 
         //Getters and setters
-        std::string getId();
+        std::string  getId() const;
         void setId(std::string id);
 
 

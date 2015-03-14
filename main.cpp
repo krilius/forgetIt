@@ -20,8 +20,12 @@
 //----- class -----
 #include "FileManIOFile.hpp"
 #include "FileManParser.hpp"
-#include "FileManContainer.hpp"
 #include "Website.hpp"
+
+#include <list>
+#include <cstdlib>
+#include <libxml++/nodes/node.h>
+#include <libxml++/libxml++.h>
 
 /**
  * @fn int main(int argc, char *argv[])
@@ -41,7 +45,8 @@ int main(int argc, char *argv[]){
     std::cout << fichier.getData();*/
 
 
-    std::string xml="<?xml version=\"1.0\" standalone=\"yes\" ?>\n\
+     std::stringstream xml;
+     xml <<"<?xml version=\"1.0\" standalone=\"yes\" ?>\n\
 <forgetIt>         \n\
 <websites>       \n\
       \n\
@@ -50,13 +55,55 @@ int main(int argc, char *argv[]){
                      ";
 
 
-    FileManParser parser(xml);
+    /*FileManParser parser(xml);
 
 
-    FileManContainer container= parser.getContainer();
-    std::vector<Website> websites= container.getWebsites();
-    std::cout << websites.at(0).getId();
+    std::vector<Website> websites= parser.getContainer();
+    std::cout << typeid(websites.at(0)).name();*/
+
+    /*xmlpp::DomParser parser;
+    parser.parse_file("Doxygen/doc.xml");
+    xmlpp::Document* doc=parser.get_document();
+    const xmlpp::Node* pNode = doc->get_root_node(); //deleted by DomParser.
+    const Glib::ustring nom="news";
+    const Glib::ustring nm="";
+    xmlpp::Element* elem=(xmlpp::Element*)pNode;*/
+
+    //std::vector<xmlpp::Node*> websites=pNode->find("//websites/*/attribute::id");
+/*
+    xmlpp::Element* ell=(xmlpp::Element*)websites.at(0);
+    ell->set_child_text("56");
+    elem->add_child(nom);
+
+    std::cout << doc->write_to_string();*/
+    //std::cout << (elem->get_child_text())->get_content();
+
+
+
+
+    FileManParser fichier("loic");
+
+
+    std::vector<Website> *bb=fichier.getWebsites();
+
+
+    Website a;
+    a.setTitle("pierre");
+
+
+    bb->push_back(a);
+
+
+
+
+    fichier.updateParser();
+
+    std::cout << fichier.getDocument();
+
 
     return 0;
 
 }
+
+
+

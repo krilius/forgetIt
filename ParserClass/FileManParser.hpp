@@ -8,23 +8,20 @@
  *
  */
 
+
 //----- std -----
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <vector>
 
 //----- class -----
 #include "Website.hpp"
-#include "FileManContainer.hpp"
 
-//----- xerces -----
-#include <xercesc/parsers/XercesDOMParser.hpp>
-#include <xercesc/dom/DOM.hpp>
-#include <xercesc/framework/MemBufInputSource.hpp>
-#include <xercesc/sax/HandlerBase.hpp>
-#include <xercesc/util/XMLString.hpp>
-#include <xercesc/util/PlatformUtils.hpp>
-#include <xercesc/util/XercesDefs.hpp>
+//----- libxml++ -----
+#include <cstdlib>
+#include <libxml++/libxml++.h>
+
 
 
 
@@ -32,27 +29,44 @@ class FileManParser{
 
 
     public:
+
+        //Constructor
         FileManParser(std::string data);
 
 
+        //Get document in string
+        std::string getDocument();
 
-        FileManContainer getContainer();
 
-        void initWebsites();
+        //Get container vector pointer:
+        std::vector<Website>* getWebsites();
 
-        std::string getData();
 
-        xercesc::DOMElement* getChildByTagName(xercesc::DOMElement* node, std::string TagName);
-        std::string getContentOfChild(xercesc::DOMElement* node,std::string TagName);
+
+        //Apply change that have made on container
+        void updateParser();
+
 
     private:
 
-        xercesc::DOMDocument* document;  ///< contain the document
 
-        xercesc::DOMElement* root;
+        //Instaciate all website container
+        void initWebsites();
 
-        FileManContainer container;   ///< contain all container
 
-        std::string data;   ///< contain data to parse
+        //Parser attributes
+        std::stringstream dataStream;
+        xmlpp::DomParser parser;
+
+
+
+        //Document attributes
+        xmlpp::Document* document;
+        xmlpp::Node* rootNode;
+
+
+        //Website attributes
+        xmlpp::Node* websitesNode;
+        std::vector<Website> *websites;
 
 };

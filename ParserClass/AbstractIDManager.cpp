@@ -34,6 +34,6 @@ std::string AbstractIDManager::generateId(){
     return ss.str();
 }
 
-std::string AbstractIDManager::getId(){
+std::string AbstractIDManager::getId() const{
     return this->id;
 }

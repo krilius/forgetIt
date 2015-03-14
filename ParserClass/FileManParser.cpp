@@ -13,26 +13,21 @@
 
 
 FileManParser::FileManParser(std::string data){
-    this->data=data;
 
-    try {
-        xercesc::XMLPlatformUtils::Initialize();
-    }
-    catch (const xercesc::XMLException& toCatch) {
-        // Do your failure processing here
+    //String to stringstream
+    (this->dataStream) << data;
 
-    }
+    //Create parser
+    //parser.parse_stream(dataStream);
+    (this->parser).parse_file("Doxygen/doc.xml");
 
+    //Retrieve document
+    this->document=(this->parser).get_document();
 
-    xercesc::XercesDOMParser *parser = new xercesc::XercesDOMParser();
-    xercesc::MemBufInputSource myxml_buf((const XMLByte*)this->data.c_str(), this->data.size(), "dummy",false);
+    //Init root Node
+    this->rootNode=(this->document)->get_root_node();
 
-    parser->parse("Doxygen/doc.xml");
-
-
-    this->document=parser->getDocument();
-    this->root=this->document->getDocumentElement();
-
+    //Init container:
     this->initWebsites();
 
 
@@ -41,93 +36,100 @@ FileManParser::FileManParser(std::string data){
 
 
 
-FileManContainer FileManParser::getContainer(){
-    return this->container;
-}
-
-
-std::string FileManParser::getData(){ return this->data;};
-
-
 
 void FileManParser::initWebsites(){
+    this->websites=new std::vector<Website>;
 
-    //Get websites élément
-    xercesc::DOMElement* websitesElement=this->getChildByTagName(this->root, "websites");
+    std::vector<xmlpp::Node*> websitesNodeSet=this->rootNode->find("//websites");
+    this->websitesNode=websitesNodeSet.at(0);
 
-    //Make list of website
-    xercesc::DOMNodeList* websiteList=websitesElement->getChildNodes();
-    XMLSize_t websiteCount = websiteList->getLength();
+    std::vector<xmlpp::Node*> websiteNodeSet=this->websitesNode->find("*");
 
+    for(int i=0;i<websiteNodeSet.size();i++){
+        xmlpp::Node* current=websiteNodeSet.at(i);
+        xmlpp::Element* currentElement=(xmlpp::Element*)current;
 
-    //Read the list of website
-    for(int i=0;i<websiteCount;i++){
+        Website newWebsite;
+        newWebsite.setId(currentElement->get_attribute_value("id"));
 
-        xercesc::DOMNode* current=websiteList->item(i);
-        std::string TagName=xercesc::XMLString::transcode(current->getNodeName());
+        std::vector<xmlpp::Node*> websiteChildren=current->find("*");
 
-        if( current->getNodeType() == xercesc::DOMNode::ELEMENT_NODE ) {
-            Website newWebsite;
+        for(int j=0;j<websiteChildren.size();j++){
+            xmlpp::Element* currentChild=(xmlpp::Element*)websiteChildren.at(j);
 
-            //Get id
-            XMLCh* idXMLCh=(XMLCh*)((xercesc::DOMElement*)current)->getAttribute((XMLCh*) xercesc::XMLString::transcode("id"));
-            //Convert id to string from XMLCh
-            std::string id=xercesc::XMLString::transcode(idXMLCh);
-
-            //Assign id
-            newWebsite.setId(id);
-
-            //Assign title
-            newWebsite.setTitle(\
-            this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"title"));
-
-            //Assign url
-            newWebsite.setUrl(\
-            this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"url"));
-
-            //Assign username
-            newWebsite.setUsername(\
-            this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"username"));
-
-            //Assign password
-            newWebsite.setPassword(\
-            this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"password"));
-
-            //Assign description
-            newWebsite.setDescription(\
-            this->getContentOfChild(dynamic_cast< xercesc::DOMElement* >( current ),"description"));
-
-            //Add website to container
-            this->container.addWebsite(newWebsite);
-
-        }
-    }
-}
+            std::list<xmlpp::Node*> contentNodes=currentChild->get_children();
+            xmlpp::CdataNode* cdataNode=(xmlpp::CdataNode*)contentNodes.front();
+            std::string cdataContent=cdataNode->get_content();
 
 
-xercesc::DOMElement* FileManParser::getChildByTagName(xercesc::DOMElement* node, std::string TagName){
-    xercesc::DOMNodeList* nodeList=node->getChildNodes();
-    XMLSize_t nodeCount = nodeList->getLength();
-    xercesc::DOMElement* returnElement=NULL;
-
-    for(int i=0;i<nodeCount;i++){
-
-        xercesc::DOMNode* current=nodeList->item(i);
-        std::string currentTagName=xercesc::XMLString::transcode(current->getNodeName());
-
-        if( current->getNodeType() == xercesc::DOMNode::ELEMENT_NODE ) {
-            if(currentTagName.compare(TagName)==0){
-                returnElement=dynamic_cast< xercesc::DOMElement* >( current );
-                break;
+            if(currentChild->get_name().compare("title")==0){
+                newWebsite.setTitle(cdataContent);
             }
+            else if(currentChild->get_name().compare("url")==0){
+                newWebsite.setUrl(cdataContent);
+            }
+            else if(currentChild->get_name().compare("username")==0){
+                newWebsite.setUsername(cdataContent);
+            }
+            else if(currentChild->get_name().compare("password")==0){
+                newWebsite.setPassword(cdataContent);
+            }
+            else if(currentChild->get_name().compare("description")==0){
+                newWebsite.setDescription(cdataContent);
+
+            }
+
+
         }
+
+        this->websites->push_back(newWebsite);
+
+
     }
 
-    return returnElement;
 }
 
 
-std::string FileManParser::getContentOfChild(xercesc::DOMElement* node,std::string TagName){
-    xercesc::DOMElement* child=this->getChildByTagName(node,TagName);
-    return xercesc::XMLString::transcode(child->getTextContent());
+
+
+std::string FileManParser::getDocument(){
+    std::string data=(this->document)->write_to_string();
+    return data;
+}
+
+
+
+std::vector<Website>* FileManParser::getWebsites(){
+    return this->websites;
+
+}
+
+
+void FileManParser::updateParser(){
+    this->rootNode->remove_child(this->websitesNode);
+
+    xmlpp::Element* websitesNode=this->rootNode->add_child("websites");
+    this->websitesNode=(xmlpp::Node*)websitesNode;
+
+    for(int i=0;i<this->websites->size();i++){
+        xmlpp::Element* current=this->websitesNode->add_child("website");
+        Website currentWebsite=this->websites->at(i);
+
+        current->set_attribute("id", currentWebsite.getId());
+        xmlpp::Element* title=current->add_child("title");
+        title->add_child_cdata(currentWebsite.getTitle());
+
+        xmlpp::Element* url=current->add_child("url");
+        url->add_child_cdata(currentWebsite.getUrl());
+
+        xmlpp::Element* username=current->add_child("username");
+        username->add_child_cdata(currentWebsite.getUsername());
+
+        xmlpp::Element* password=current->add_child("password");
+        password->add_child_cdata(currentWebsite.getPassword());
+
+        xmlpp::Element* description=current->add_child("description");
+        description->add_child_cdata(currentWebsite.getDescription());
+
+    }
 }
